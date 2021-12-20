@@ -20,16 +20,6 @@ class CustomerService {
         return customers.filter { it.id == id }.first()
     }
 
-    fun createCustomer(customer: CustomerModel) {
-        val id =if (customers.isEmpty()){
-            1
-        }else{
-            customers.last().id!!.toInt() +1
-        }.toString()
-        customer.id = id
-        customers.add(customer)
-    }
-
     fun updateCustomer(customer: CustomerModel) {
         customers.filter { it.id == customer.id }.first().let {
             it.name = customer.name
@@ -40,4 +30,11 @@ class CustomerService {
     fun deleteCustomer(id:String) {
         customers.removeIf { it.id == id }
     }
+
+    fun createCustomer(customer: CustomerModel) {
+        val id =if (customers.isEmpty())1 else customers.last().id!!.toInt() +1
+        customer.id = id.toString()
+        customers.add(customer)
+    }
+
 }
