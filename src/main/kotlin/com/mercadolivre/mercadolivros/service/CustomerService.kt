@@ -3,12 +3,12 @@ package com.mercadolivre.mercadolivros.service
 import com.mercadolivre.mercadolivros.model.CustomerModel
 import com.mercadolivre.mercadolivros.repository.CustomerRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 
 @Service
 class CustomerService (
-    val customerRepository: CustomerRepository
+    val customerRepository: CustomerRepository,
+    val bookService: BookService
         ){
 
     fun getAll(name:String?): List<CustomerModel> {
@@ -18,7 +18,7 @@ class CustomerService (
             return  customerRepository.findAll().toList()
     }
 
-    fun getById(id:Int): CustomerModel {
+    fun findById(id:Int): CustomerModel {
         if (!customerRepository.existsById(id)){
             throw Exception("Error ID não encontrado")
         }
@@ -36,6 +36,8 @@ class CustomerService (
         if (!customerRepository.existsById(id)){
             throw Exception("ID não encontrado")
         }
+        var customer = findById(id)
+        bookService.deleteByCustomer(customer)
         customerRepository.deleteById(id)
     }
 
