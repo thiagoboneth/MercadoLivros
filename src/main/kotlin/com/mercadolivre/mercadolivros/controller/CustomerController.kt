@@ -7,6 +7,7 @@ import com.mercadolivre.mercadolivros.model.CustomerModel
 import com.mercadolivre.mercadolivros.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 
 @RestController
@@ -16,8 +17,8 @@ class CustomerController (
         ){
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id:String): CustomerModel {
-        return customerService.getCustomer(id)
+    fun getCustomer(@PathVariable id:Int): CustomerModel {
+        return customerService.getById(id)
     }
 
     @GetMapping
@@ -33,13 +34,13 @@ class CustomerController (
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateCustomer(@PathVariable id:String, @RequestBody customer: PutCustomerRequest) {
+    fun updateCustomer(@PathVariable id:Int, @RequestBody customer: PutCustomerRequest) {
         return customerService.updateCustomer(customer.toCustomerModel(id))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    fun deleteCustomer(@PathVariable id:String) {
+    fun deleteCustomer(@PathVariable id:Int) {
         return customerService.deleteCustomer(id)
     }
 
